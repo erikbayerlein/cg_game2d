@@ -1,3 +1,5 @@
+
+# pylint: disable=all
 import pygame
 from pygame import gfxdraw
 import numpy as np
@@ -167,7 +169,7 @@ class TexturePolygon:
         self.points = points
 
     def insert_vertex(self, points):
-        self.polygon += points
+        self.points += points
 
     def y_min(self):
         return min(int(row[1]) for row in self.points)
@@ -187,6 +189,11 @@ class TexturePolygon:
 
 
 class Draw:
+    def draw_text(screen, text, x, y, font_size, color):
+        font = pygame.font.Font(None, font_size)
+        text_surface = font.render(text, True, color)
+        screen.blit(text_surface, (x, y))
+        
     def set_pixel(screen, x, y, color):
         if x < 0:
             x = 0
@@ -239,6 +246,9 @@ class Draw:
             steps = abs(dx)
         else:
             steps = abs(dy)
+            
+        if steps==0:
+            steps=1
 
         steps_x = dx/steps
         steps_y = dy/steps
@@ -304,6 +314,8 @@ class Draw:
             return -1
         else:
             return 1
+        
+  
 
 
 class Color:

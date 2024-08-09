@@ -1,11 +1,10 @@
-
 # pylint: disable=all
 import pygame
 
-from cg.cg import (Screen)
+from cg.cg import Screen, Draw, Texture
 from characters.background import Background
 from characters.cat import Bullet, Cat
-
+from characters.inicio import imagem
 
 pygame.init()
 
@@ -18,11 +17,40 @@ height = 600
 screen = Screen(width, height).display
 
 
-def run():
-    # window = [0, 0, 1200, 1000]
+def home_screen():
     window = [0, 0, 800, 600]
     viewport1 = [0, 0, 800, 600]
+    viewport2 = [450, 0, 500, 55]
 
+    windows = [window]
+    viewports = [viewport1, viewport2]
+
+    space = Background(windows, viewports)
+    img = imagem(windows, viewports, "spaceinvaders.PNG")
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    py_invaders()
+                    return
+
+        screen.fill((0, 0, 0))
+        img.draw(screen)
+        space.draw(screen)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
+
+def py_invaders():
+    window = [0, 0, 800, 600]
+    viewport1 = [0, 0, 800, 600]
     viewport2 = [450, 0, 500, 55]
 
     windows = [window]
@@ -36,12 +64,14 @@ def run():
     bullets = []
     cooldown = 0
 
-    while True:
-        if pygame.event.get(pygame.QUIT): break
-        pygame.event.pump()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
         keys = pygame.key.get_pressed()
-        
+
         # movement
         if keys[pygame.K_w]:
             cat.move_up(dt)
@@ -74,12 +104,17 @@ def run():
                 bullet.move(screen)
                 if bullet.polygon.y_min() <= 0:
                     bullets.pop(0)
-                    del(bullet)
+                    del bullet
 
         pygame.display.flip()
         clock.tick(60)
 
+    pygame.quit()
+
+
+def main():
+    home_screen()
+
 
 if __name__ == "__main__":
-    run()
-
+    main()
