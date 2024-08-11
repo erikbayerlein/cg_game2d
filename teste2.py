@@ -1,7 +1,7 @@
 # pylint: disable=all
 import pygame
 
-from cg.cg import Screen, Draw, Texture
+from cg.cg import Screen, Draw, Texture,Color
 from characters.background import Background
 from characters.cat import Bullet, Cat
 from characters.inicio import imagem
@@ -28,6 +28,9 @@ def home_screen():
     space = Background(windows, viewports)
     img = imagem(windows, viewports, "spaceinvaders.PNG")
 
+    # Instancia a classe Color
+    color_filler = Color(screen, width, height)
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -42,12 +45,17 @@ def home_screen():
         img.draw(screen)
         space.draw(screen)
 
+       
+        Draw.circumference(screen, 650, 450, 60, (255, 255, 255))  
+        color_filler.flood_fill2(650, 450, (255, 165, 0), animation=False)
+
+       
         pygame.display.flip()
         clock.tick(60)
 
     pygame.quit()
-
-
+    
+    
 def py_invaders():
     window = [0, 0, 800, 600]
     viewport1 = [0, 0, 800, 600]

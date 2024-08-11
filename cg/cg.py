@@ -303,11 +303,11 @@ class Draw:
 
     def circumference(screen, x_center, y_center, radius, color):
         c = Polygon()
-
+        
         for angle in np.arange(0, 2 * np.pi, 0.25):
             c.insert_vertex(np.floor(x_center + radius * np.cos(angle)), np.floor(y_center + radius * np.sin(angle)))
 
-        c.draw_polygon(screen, color)
+        Draw.draw_polygon(screen,c, color)
         
     def __sign(x):
         if x < 0:
@@ -320,8 +320,16 @@ class Draw:
 
 class Color:
     # TO DO: alterar
-    def flood_fill(self, x, y, color, animation=False):
-        initial_color = Color(Screen.get_pixel(x, y))
+    def __init__(self, screen, width, height):
+        self.screen = screen
+        self.width = width
+        self.height = height
+        
+        
+        
+
+    def flood_fill2(self, x, y, color, animation=False):
+        initial_color = self.screen.get_at((x, y))
 
         if color == initial_color:
             return
@@ -331,26 +339,29 @@ class Color:
         while stack:
             x, y = stack.pop()
 
-            if Color(Screen.get_pixel(x, y)) != initial_color:
+            if self.screen.get_at((x, y)) != initial_color:
                 continue
 
             if animation:
-                time.sleep(0.000001)
+                time.sleep(0.001) 
                 pygame.display.update()
 
-            Draw.set_pixel(x, y, color)
+            self.screen.set_at((x, y), color)
 
             if x + 1 < self.width:
                 stack.append((x + 1, y))
 
-            if x >= 1:
+            if x > 0:
                 stack.append((x - 1, y))
 
             if y + 1 < self.height:
                 stack.append((x, y + 1))
 
-            if y >= 1:
+            if y > 0:
                 stack.append((x, y - 1))
+    
+    
+   
 
     # TO DO: alterar
     def boundary_fill(self, x, y, color, border_color=None):
