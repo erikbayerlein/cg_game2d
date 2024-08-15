@@ -26,10 +26,51 @@ def home_screen():
     viewports = [viewport1, viewport2]
 
     space = Background(windows, viewports)
-    img = imagem(windows, viewports, "home_screen.PNG")
+    img = imagem(windows, viewports, "spaceinvaders.PNG")
 
    
     color_filler = Color(screen, width, height)
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    instructions()
+                    return
+                elif event.key == pygame.K_ESCAPE:  
+                    running = False
+
+        screen.fill((0, 0, 0))
+        img.draw(screen)
+        space.draw(screen)
+        Draw.circumference(screen, 650, 500, 50, (255, 255, 255))  
+        color_filler.flood_fill2(650, 500, (255, 165, 0), animation=False)
+       
+      
+
+       
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+    
+
+def instructions():
+    window = [0, 0, 800, 600]
+    viewport1 = [0, 0, 800, 600]
+    viewport2 = [450, 0, 500, 55]
+
+    windows = [window]
+    viewports = [viewport1, viewport2]
+
+    space = Background(windows, viewports)
+    img = imagem(windows, viewports, "teste-instrucao.PNG")
+
+   
+    
 
     running = True
     while running:
@@ -46,8 +87,7 @@ def home_screen():
         screen.fill((0, 0, 0))
         img.draw(screen)
         space.draw(screen)
-        Draw.circumference(screen, 100, 500, 50, (255, 255, 255))  
-        color_filler.flood_fill2(100, 500, (255, 165, 0), animation=False)
+       
        
       
 
@@ -56,7 +96,8 @@ def home_screen():
         clock.tick(60)
 
     pygame.quit()
-    
+
+
     
 def py_invaders():
     window = [0, 0, 800, 600]
