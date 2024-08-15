@@ -26,9 +26,9 @@ def home_screen():
     viewports = [viewport1, viewport2]
 
     space = Background(windows, viewports)
-    img = imagem(windows, viewports, "spaceinvaders.PNG")
+    img = imagem(windows, viewports, "home_screen.PNG")
 
-    # Instancia a classe Color
+   
     color_filler = Color(screen, width, height)
 
     running = True
@@ -40,14 +40,16 @@ def home_screen():
                 if event.key == pygame.K_RETURN:
                     py_invaders()
                     return
+                elif event.key == pygame.K_ESCAPE:  
+                    running = False
 
         screen.fill((0, 0, 0))
         img.draw(screen)
         space.draw(screen)
-
+        Draw.circumference(screen, 100, 500, 50, (255, 255, 255))  
+        color_filler.flood_fill2(100, 500, (255, 165, 0), animation=False)
        
-        Draw.circumference(screen, 650, 450, 60, (255, 255, 255))  
-        color_filler.flood_fill2(650, 450, (255, 165, 0), animation=False)
+      
 
        
         pygame.display.flip()
@@ -120,9 +122,48 @@ def py_invaders():
     pygame.quit()
 
 
+def game_over():
+    window = [0, 0, 800, 600]
+    viewport1 = [0, 0, 800, 600]
+    viewport2 = [450, 0, 500, 55]
+
+    windows = [window]
+    viewports = [viewport1, viewport2]
+
+    space = Background(windows, viewports)
+    img = imagem(windows, viewports, "game_over.PNG")
+   
+   
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    py_invaders()
+                    return
+                elif event.key == pygame.K_ESCAPE:  
+                    running = False
+                    
+        screen.fill((0, 0, 0))
+        img.draw(screen)
+        space.draw(screen)
+       
+       
+       
+
+       
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
+
+
 def main():
     home_screen()
-
 
 if __name__ == "__main__":
     main()
